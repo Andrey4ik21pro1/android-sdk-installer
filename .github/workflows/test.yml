@@ -79,7 +79,7 @@ jobs:
               echo "$NEW_HOME/cmdline-tools/latest/bin" >> $GITHUB_PATH
             fi
           fi
-          sdkmanager --list | grep "cmdline-tools"
+          sdkmanager --list_installed
 
       - name: Verify (Windows)
         if: runner.os == 'Windows'
@@ -90,4 +90,4 @@ jobs:
           $uPath = [Environment]::GetEnvironmentVariable('Path', 'User')
 
           $env:Path = "$mPath;$uPath"
-          sdkmanager --list | Select-String "cmdline-tools"
+          sdkmanager --list_installed
