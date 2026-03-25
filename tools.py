@@ -13,7 +13,6 @@ import hashlib
 import subprocess
 
 REPO_URL = "https://dl.google.com/android/repository/"
-PROJECT_NAME = "android-sdk-installer"
 
 def get_home_path() -> Path:
     if sys.platform == "win32":

@@ -2,7 +2,7 @@ from tools import get_home_path
 from core import App
 
 import argparse
-import pathlib
+from pathlib import Path
 
 def main():
     parser = argparse.ArgumentParser(
@@ -18,7 +18,7 @@ def main():
     )
 
     args = parser.parse_args()
-    path = pathlib.Path(args.path).resolve()
+    path = Path(args.path).resolve()
 
     app = App(path)
     app.setup()
