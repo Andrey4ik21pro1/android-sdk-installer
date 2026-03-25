@@ -1,8 +1,7 @@
-from .tools import get_download_url, download_commandline_tools, add_to_path, install_platform_tools
+from tools import get_download_url, download_commandline_tools, add_to_path, install_platform_tools
 
 from pathlib import Path
 import os
-import click
 
 def check_tools() -> str | None:
     ANDROID_HOME = os.environ.get("ANDROID_HOME")
@@ -18,8 +17,9 @@ class App:
     def setup(self):
         tools = check_tools()
         if tools:
-            if not click.confirm(f"Path '{tools}' already exists. Overwrite?", default=False):
-                click.echo("Aborted.")
+            response = input(f"Path '{tools}' already exists. Overwrite? [y/N]: ").lower().strip()
+            if response not in ("y", "yes"):
+                print("Aborted.")
                 return
 
         download_url, file_name, checksum = get_download_url()

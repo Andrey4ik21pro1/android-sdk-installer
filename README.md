@@ -14,18 +14,6 @@ Use at your own risk; the author is not responsible for any damage or issues cau
 ---
 
 ## Usage
-
-### Option 1: Install directly from GitHub (Recommended)
-1. **Install the package:**
-```bash
-pip install git+https://github.com/andrey4ik21pro1/android-sdk-installer.git
-```
-2. **Run**:
-```bash
-android-sdk-installer --path sdk
-```
-
-### Option 2: Run without installation
 1. **Clone the repository:**
 ```bash
 git clone https://github.com/andrey4ik21pro1/android-sdk-installer.git
@@ -36,8 +24,8 @@ cd android-sdk-installer
 pip install -r requirements.txt
 ```
 3. **Run**:
-- Linux/macOS: `./run.sh --path sdk`
-- Windows: `.\run.ps1 --path sdk` or `.\run.bat --path sdk`
+- Linux/macOS: `python3 main.py --path sdk`
+- Windows: `python main.py --path sdk`
 
 ---
 
