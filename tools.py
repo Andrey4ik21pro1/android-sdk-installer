@@ -14,7 +14,7 @@ import subprocess
 
 REPO_URL = "https://dl.google.com/android/repository/"
 
-def get_home_path() -> Path:
+def get_home_path(): # https://stackoverflow.com/a/56528860
     if sys.platform == "win32":
         local_appdata = os.environ.get("LOCALAPPDATA")
         if not local_appdata:
@@ -25,18 +25,18 @@ def get_home_path() -> Path:
         home = os.environ.get("HOME")
         if not home:
             raise OSError("HOME environment variable is not set.")
-        return Path(home) / ".local" / "share"
+        return Path(home)
 
     elif sys.platform == "darwin":
         home = os.environ.get("HOME")
         if not home:
             raise OSError("HOME environment variable is not set.")
-        return Path(home) / "Library" / "Application Support"
+        return Path(home) / "Library"
 
     else:
         raise OSError(f"Unsupported platform: {sys.platform}")
 
-def get_download_url() -> tuple[str, str, str]:
+def get_download_url():
     response = requests.get(f"{REPO_URL}/repository2-1.xml", timeout=30)
     response.raise_for_status()
 
@@ -64,7 +64,7 @@ def get_download_url() -> tuple[str, str, str]:
 
     raise RuntimeError("Latest cmdline-tools not found")
 
-def download_commandline_tools(url: str, file_name: str, checksum: str, path: Path):
+def download_commandline_tools(url, file_name, checksum, path):
     target_path = path / "cmdline-tools" / "latest"
     if target_path.exists(): shutil.rmtree(target_path)
     target_path.parent.mkdir(parents=True, exist_ok=True)
@@ -81,7 +81,7 @@ def download_commandline_tools(url: str, file_name: str, checksum: str, path: Pa
         with open(temp_zip, "wb") as file, tqdm(
             desc=file_name,
             total=total_size,
-            unit='iB',
+            unit="iB",
             unit_scale=True,
             unit_divisor=1024
         ) as bar:
@@ -108,15 +108,15 @@ def download_commandline_tools(url: str, file_name: str, checksum: str, path: Pa
         inner_folder = next(extract_path.glob("**/bin")).parent
         shutil.move(str(inner_folder), str(target_path))
 
-def install_platform_tools(path: Path):
+def install_platform_tools(path):
     cmd = "sdkmanager.bat" if sys.platform == "win32" else "sdkmanager"
     bin = path / "cmdline-tools" / "latest" / "bin" / cmd
     subprocess.run([bin, "--install", "platform-tools"], input=b"yes\n", check=True)
 
-def add_to_path_windows(path: Path):
+def add_to_path_windows(path):
     bin_path = path / "cmdline-tools" / "latest" / "bin"
     platform_tools = path / "platform-tools"
-    powershell = f'''
+    script = f"""
 $new_home = '{path}'
 $new_bin = '{bin_path}'
 $new_tools = '{platform_tools}'
@@ -134,10 +134,10 @@ foreach ($p in $toAdd) {{
 
 $newPath = $paths -join ';'
 [Environment]::SetEnvironmentVariable('Path', $newPath, 'User')
-'''
-    subprocess.run(['powershell', '-Command', powershell], check=True, capture_output=True)
+"""
+    subprocess.run(["powershell", "-Command", script], check=True, capture_output=True)
 
-def add_to_path_unix(path: Path, config_name: str):
+def add_to_path_unix(path, config_name):
     config_file = Path.home() / config_name
 
     android_home_line = f'export ANDROID_HOME="{path}"'
@@ -145,15 +145,14 @@ def add_to_path_unix(path: Path, config_name: str):
 
     lines = []
     if config_file.exists():
-        lines = [l for l in config_file.read_text().splitlines()
-                 if 'ANDROID_HOME' not in l]
+        lines = [l for l in config_file.read_text().splitlines() if "ANDROID_HOME" not in l]
 
     lines.append(android_home_line)
     lines.append(path_update_line)
 
-    config_file.write_text('\n'.join(lines) + '\n')
+    config_file.write_text("\n".join(lines) + "\n")
 
-def add_to_path(path: Path):
+def add_to_path(path):
     if sys.platform == "win32":
         add_to_path_windows(path)
     elif sys.platform == "linux":

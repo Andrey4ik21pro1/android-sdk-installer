@@ -3,11 +3,7 @@ from tools import get_download_url, download_commandline_tools, add_to_path, ins
 from pathlib import Path
 import os
 
-def check_tools() -> str | None:
-    ANDROID_HOME = os.environ.get("ANDROID_HOME")
-    return ANDROID_HOME
-
-def return_path(path: Path) -> Path:
+def return_path(path):
     return path / "Android" / "Sdk"
 
 class App:
@@ -15,7 +11,7 @@ class App:
         self.android_home = return_path(Path(path))
 
     def setup(self):
-        tools = check_tools()
+        tools = os.environ.get("ANDROID_HOME")
         if tools:
             response = input(f"Path '{tools}' already exists. Overwrite? [y/N]: ").lower().strip()
             if response not in ("y", "yes"):
