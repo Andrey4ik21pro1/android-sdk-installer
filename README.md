@@ -25,7 +25,7 @@ pip install -r requirements.txt
 ```
 3. **Run**:
 ```bash
-python main.py --path sdk
+python main.py --path android-sdk
 ```
 
 ---
