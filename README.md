@@ -24,8 +24,9 @@ cd android-sdk-installer
 pip install -r requirements.txt
 ```
 3. **Run**:
-- Linux/macOS: `python3 main.py --path sdk`
-- Windows: `python main.py --path sdk`
+```bash
+python main.py --path sdk
+```
 
 ---
 
