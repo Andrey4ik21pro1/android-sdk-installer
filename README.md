@@ -1,6 +1,6 @@
 # android-sdk-installer
 
-![License](https://img.shields.io/badge/License-GNU%20v3.0-blue?style=for-the-badge)  ![Python](https://img.shields.io/badge/Language-Python-3670A0?style=for-the-badge&logo=python&logoColor=white)
+![License](https://img.shields.io/badge/License-GPL%20v3.0-blue?style=for-the-badge)  ![Python](https://img.shields.io/badge/Language-Python-3670A0?style=for-the-badge&logo=python&logoColor=white)
 
 ### CLI tool for Android SDK installation and environment setup
 
