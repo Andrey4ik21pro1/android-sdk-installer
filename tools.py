@@ -15,23 +15,16 @@ import subprocess
 REPO_URL = "https://dl.google.com/android/repository/"
 
 def get_home_path(): # https://stackoverflow.com/a/56528860
+    home = Path.home()
+
     if sys.platform == "win32":
-        local_appdata = os.environ.get("LOCALAPPDATA")
-        if not local_appdata:
-            raise OSError("LOCALAPPDATA environment variable is not set.")
-        return Path(local_appdata)
+        return home / "AppData" / "Local"
 
     elif sys.platform == "linux":
-        home = os.environ.get("HOME")
-        if not home:
-            raise OSError("HOME environment variable is not set.")
-        return Path(home)
+        return home
 
     elif sys.platform == "darwin":
-        home = os.environ.get("HOME")
-        if not home:
-            raise OSError("HOME environment variable is not set.")
-        return Path(home) / "Library"
+        return home / "Library"
 
     else:
         raise OSError(f"Unsupported platform: {sys.platform}")
