@@ -1,4 +1,4 @@
-from tools import get_home_path
+from utils import get_home_path
 from core import App
 
 import argparse
@@ -12,7 +12,6 @@ def main():
 
     parser.add_argument(
         "--path",
-        type=str,
         default=str(get_home_path()),
         help="Specify the SDK installation path"
     )
